@@ -11,7 +11,8 @@ const { LatLng, LatLngBounds } = sdkTypes;
 // NOTE: these are highly recommended, since they
 //       1) help customers to find relevant locations, and
 //       2) reduce the cost of using map providers geocoding API
-const defaultLocations = [
+
+// const defaultLocations = [
   // {
   //   id: 'default-helsinki',
   //   predictionPlace: {
@@ -47,5 +48,79 @@ const defaultLocations = [
   //     bounds: new LatLngBounds(new LatLng(66.16997, 29.16773), new LatLng(66.16095, 29.13572)),
   //   },
   // },
+// ];
+
+const defaultLocations = [
+  {
+    id: 'default-paris',
+    predictionPlace: {
+      address: 'Paris, France',
+      bounds: new LatLngBounds(
+        new LatLng(48.9021449, 2.4699208), // NE
+        new LatLng(48.815573, 2.224199)   // SW
+      ),
+    },
+  },
+  {
+    id: 'default-brest',
+    predictionPlace: {
+      address: 'Brest, France',
+      bounds: new LatLngBounds(
+        new LatLng(48.4400, -4.4000), // NE
+        new LatLng(48.3600, -4.5500)  // SW
+      ),
+    },
+  },  
+  {
+    id: 'default-lille',
+    predictionPlace: {
+      address: 'Lille, France',
+      bounds: new LatLngBounds(
+        new LatLng(50.6700, 3.1250), // NE
+        new LatLng(50.5900, 2.9800)  // SW
+      ),
+    },
+  },
+  {
+    id: 'default-lyon',
+    predictionPlace: {
+      address: 'Lyon, France',
+      bounds: new LatLngBounds(
+        new LatLng(45.8280, 4.9350), // NE
+        new LatLng(45.7100, 4.7700)  // SW
+      ),
+    },
+  },
+  {
+    id: 'default-montpellier',
+    predictionPlace: {
+      address: 'Montpellier, France',
+      bounds: new LatLngBounds(
+        new LatLng(43.6600, 3.9500), // NE
+        new LatLng(43.5600, 3.7800)  // SW
+      ),
+    },
+  },
+  {
+    id: 'default-nice',
+    predictionPlace: {
+      address: 'Nice, France',
+      bounds: new LatLngBounds(
+        new LatLng(43.7400, 7.3000), // NE
+        new LatLng(43.6700, 7.2000)  // SW
+      ),
+    },
+  },
+  {
+    id: 'default-tours',
+    predictionPlace: {
+      address: 'Tours, France',
+      bounds: new LatLngBounds(
+        new LatLng(47.4300, 0.7400), // NE
+        new LatLng(47.3300, 0.6200)  // SW
+      ),
+    },
+  },
 ];
+
 export default defaultLocations;

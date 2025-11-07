@@ -132,25 +132,17 @@ export class SearchMapComponent extends Component {
   }
 
   render() {
-
-    // Using a default soom and center for the first map default display
-    const DEFAULT_CENTER = { lat: 48.8566, lng: 2.3522 }; // Paris
-    // const DEFAULT_CENTER = { lat: 47.0833, lng: 2.4 }; // Bourges
-    const DEFAULT_ZOOM = 9;
-
     const {
       id = 'searchMap',
       className,
       rootClassName,
       reusableContainerClassName,
-      bounds,      
-      center = DEFAULT_CENTER, // Setting a default center
-      // center = null,
+      bounds,
+      center = null,
       location,
       listings: originalListings,
       onMapMoveEnd,
-      zoom = DEFAULT_ZOOM, // Setting a default zoom
-      // zoom = 11,
+      zoom = 11,
       config,
       activeListingId,
       messages,
