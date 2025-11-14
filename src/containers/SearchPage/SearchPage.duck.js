@@ -344,6 +344,9 @@ export const searchListings = (searchParams, config) => (dispatch, getState, sdk
     isListingTypeVariant,
     ...restOfParams
   } = searchParams;
+
+  // // Custom development: Add "Toute la France" automatically when a region is selected in the filter //Dav
+
   // The params related to default filters are prepared one-by-one
   // We could consider moving them to the prepareAPIParams function too.
   const priceMaybe = priceSearchParams(price);
@@ -366,7 +369,6 @@ export const searchListings = (searchParams, config) => (dispatch, getState, sdk
       : apiParamsFromRest;
   })();
 
-// Custom development: Add "Toute la France" automatically when a region is selected in the filter //Dav
   const params = {
     // The params that are related to listing fields and categories are prepared here.
     // Note: apiParamsWithZones already contains the modified pub_serviceAreas
