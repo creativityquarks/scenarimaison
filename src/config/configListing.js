@@ -262,8 +262,8 @@ export const listingFields = [
 
     // 6) Only show/store this field for specific listing types:
     limitToListingTypeIds: [
-      'categorie-audit-plus',                 // your purchase process
-      'categorie-audit-premium' // etc.
+      'categorie-audit-plus',                
+      'categorie-audit-premium' 
     ],
   },
   // // We also want a “nationwide” fallback, with a second simple enum field:
