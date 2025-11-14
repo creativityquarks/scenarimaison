@@ -542,12 +542,20 @@ const validFilterConfig = (config, schemaType) => {
   if (isUndefined) {
     return [true, {}];
   }
+
+  // // Force using listing types and fields from file configListing.js //Dav  
   // Validate: indexForSearch, label, filterType, searchMode, group
+  // const [isValidIndexForSearch, indexForSearch] = validBoolean(
+  //   'indexForSearch',
+  //   config.indexForSearch,
+  //   false
+  // );
   const [isValidIndexForSearch, indexForSearch] = validBoolean(
     'indexForSearch',
     config.indexForSearch,
-    false
+    true
   );
+
   const [isValidLabel, label] = validLabel(config.label);
   const [isValidFilterType, filterType] = validFilterType(config.filterType, schemaType);
   const [isValidSearchMode, searchMode] = validSearchMode(config.searchMode, schemaType);
@@ -1144,7 +1152,11 @@ const mergeListingConfig = (hostedConfig, defaultConfigs, categoriesInUse) => {
 
   // When debugging, include default configs by passing 'true' here.
   // Otherwise, use listing types and fields from hosted assets.
-  const shouldMerge = mergeDefaultTypesAndFieldsForDebugging(false);
+
+  // // Force using listing types and fields from file configListing.js //Dav
+  // const shouldMerge = mergeDefaultTypesAndFieldsForDebugging(false);
+  const shouldMerge = mergeDefaultTypesAndFieldsForDebugging(true);
+  
   const listingTypes = shouldMerge
     ? union(hostedListingTypes, defaultListingTypes, 'listingType')
     : hostedListingTypes;

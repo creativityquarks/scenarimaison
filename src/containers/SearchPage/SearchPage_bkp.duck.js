@@ -15,34 +15,6 @@ import { parse } from '../../util/urlHelpers';
 
 import { addMarketplaceEntities } from '../../ducks/marketplaceData.duck';
 
-// Custom development: Add "Toute la France" automatically when a region is selected in the filter //Dav
-// // Locate where you extract pub_serviceAreas from URL / search params.
-// // Before passing them to listings.query, inject your “national” key.
-// // "Toute la France" service area key
-const NATIONAL_SERVICE_AREA_KEY = 'FR';
-
-// Helper: if there are region selections, add the national key
-const withNationalIfAnyRegion = value => {
-  if (!value) {
-    return value;
-  }
-
-  // Value might be a string ("ile_de_france,paris") or an array.
-  const arr = Array.isArray(value) ? value : `${value}`.split(',').filter(v => v);
-
-  if (arr.length === 0) {
-    return value;
-  }
-
-  const set = new Set(arr);
-  set.add(NATIONAL_SERVICE_AREA_KEY);
-  const newArr = Array.from(set);
-
-  // Keep the same type as the original: string or array
-  return Array.isArray(value) ? newArr : newArr.join(',');
-};
-
-
 // Pagination page size might need to be dynamic on responsive page layouts
 // Current design has max 3 columns 12 is divisible by 2 and 3
 // So, there's enough cards to fill all columns on full pagination pages
@@ -352,43 +324,35 @@ export const searchListings = (searchParams, config) => (dispatch, getState, sdk
   const seatsMaybe = seatsSearchParams(seats, datesMaybe);
   const sortMaybe = sort === config.search.sortConfig.relevanceKey ? {} : { sort };
 
-  // 1) First, let the helpers prepare category & integer-range params
-  const apiParamsFromRest = prepareAPIParams(restOfParams, [
-    prepareCategoryParams,
-    prepareIntegerRangeParam,
-  ]);
-
-  // 2) Then, if pub_serviceAreas is present, augment it with the national key
-  const apiParamsWithZones = (() => {
-    const { pub_serviceAreas, ...others } = apiParamsFromRest;
-    return pub_serviceAreas
-      ? { ...others, pub_serviceAreas: withNationalIfAnyRegion(pub_serviceAreas) }
-      : apiParamsFromRest;
-  })();
-
-// Custom development: Add "Toute la France" automatically when a region is selected in the filter //Dav
   const params = {
     // The params that are related to listing fields and categories are prepared here.
-    // Note: apiParamsWithZones already contains the modified pub_serviceAreas
-    ...apiParamsWithZones,
-
-    // Listing-type constraints
+    // We add handler functions that check category and integer range configurations.
+    // - With category params, we essentially just omit invalid category names.
+    //   I.e. params that are not part of the currently configured category tree.
+    // - With integer range params, we prepare the property for API.
+    //   I.e. the range end must be exclusive. E.g. 1000,2000 -> 1000,2001
+    // Note: invalid independent search params are still passed through
+    ...prepareAPIParams(restOfParams, [prepareCategoryParams, prepareIntegerRangeParam]),
+    // If the search page variant is of type /s/:listingType, this sets the pub_listingType
+    // query parameter to the value of the listing type path parameter. The ordering matters here,
+    // since this value overrides any possible pub_listingType value coming from query parameters
+    // i.e. the previous row.
+    //
+    // Only one value is currently supported in pub_listingType – if you want to support e.g.
+    // /s/:listingType?pub_listingType=[otherListingType] => pub_listingType=listingType,otherListingType,
+    // you'll need to customize a logic that merges the query param and path param values.
     ...searchValidListingTypes(
       config.listing.listingTypes,
       listingTypePathParam,
       isListingTypeVariant
     ),
-
-    // Default filters (price, dates, stock, seats, sort)
     ...priceMaybe,
     ...datesMaybe,
     ...stockMaybe,
     ...seatsMaybe,
     ...sortMaybe,
-
     perPage,
   };
-
 
   return sdk.listings
     .query(params)

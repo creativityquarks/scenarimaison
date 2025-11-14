@@ -8,51 +8,82 @@
 //       (E.g. use mergeDefaultTypesAndFieldsForDebugging func)
 
 /**
- * Configuration options for listing fields (custom extended data fields):
- * - key:                           Unique key for the extended data field.
- * - scope (optional):              Scope of the extended data can be either 'public' or 'private'.
- *                                  Default value: 'public'.
- *                                  Note: listing doesn't support 'protected' scope atm.
- * - schemaType (optional):         Schema for this extended data field.
- *                                  This is relevant when rendering components and querying listings.
- *                                  Possible values: 'enum', 'multi-enum', 'text', 'long', 'boolean'.
- * - enumOptions (optional):        Options shown for 'enum' and 'multi-enum' extended data.
- *                                  These are used to render options for inputs and filters on
- *                                  EditListingPage, ListingPage, and SearchPage.
- * - listingTypeConfig (optional):  Relationship configuration against listing types.
- *   - limitToListingTypeIds:         Indicator whether this listing field is relevant to a limited set of listing types.
- *   - listingTypeIds:                An array of listing types, for which this custom listing field is
- *                                    relevant and should be added. This is mandatory if limitToListingTypeIds is true.
- * - categoryConfig (optional):     Relationship configuration against categories.
- *   - limitToCategoryIds:            Indicator whether this listing field is relevant to a limited set of categories.
- *   - categoryIds:                   An array of categories, for which this custom listing field is
- *                                    relevant and should be added. This is mandatory if limitToCategoryIds is true.
- * - filterConfig:                  Filter configuration for listings query.
- *    - indexForSearch (optional):    If set as true, it is assumed that the extended data key has
- *                                    search index in place. I.e. the key can be used to filter
- *                                    listing queries (then scope needs to be 'public').
- *                                    Note: Sharetribe CLI can be used to set search index for the key:
- *                                    https://www.sharetribe.com/docs/references/extended-data/#search-schema
- *                                    Read more about filtering listings with public data keys from API Reference:
- *                                    https://www.sharetribe.com/api-reference/marketplace.html#extended-data-filtering
- *                                    Default value: false,
- *   - filterType:                    Sometimes a single schemaType can be rendered with different filter components.
- *                                    For 'enum' schema, filterType can be 'SelectSingleFilter' or 'SelectMultipleFilter'
- *   - label:                         Label for the filter, if the field can be used as query filter
- *   - searchMode (optional):         Search mode for indexed data with multi-enum schema.
- *                                    Possible values: 'has_all' or 'has_any'.
- *   - group:                         SearchPageWithMap has grouped filters. Possible values: 'primary' or 'secondary'.
- * - showConfig:                    Configuration for rendering listing. (How the field should be shown.)
- *   - label:                         Label for the saved data.
- *   - isDetail                       Can be used to hide detail row (of type enum, boolean, or long) from listing page.
- *                                    Default value: true,
- * - saveConfig:                    Configuration for adding and modifying extended data fields.
- *   - label:                         Label for the input field.
- *   - placeholderMessage (optional): Default message for user input.
- *   - isRequired (optional):         Is the field required for providers to fill
- *   - requiredMessage (optional):    Message for those fields, which are mandatory.
- */
+* Configuration options for listing fields (custom extended data fields):
+* - key:                           Unique key for the extended data field.
+* - scope (optional):              Scope of the extended data can be either 'public' or 'private'.
+*                                  Default value: 'public'.
+*                                  Note: listing doesn't support 'protected' scope atm.
+* - schemaType (optional):         Schema for this extended data field.
+*                                  This is relevant when rendering components and querying listings.
+*                                  Possible values: 'enum', 'multi-enum', 'text', 'long', 'boolean'.
+* - enumOptions (optional):        Options shown for 'enum' and 'multi-enum' extended data.
+*                                  These are used to render options for inputs and filters on
+*                                  EditListingPage, ListingPage, and SearchPage.
+* - listingTypeConfig (optional):  Relationship configuration against listing types.
+*   - limitToListingTypeIds:         Indicator whether this listing field is relevant to a limited set of listing types.
+*   - listingTypeIds:                An array of listing types, for which this custom listing field is
+*                                    relevant and should be added. This is mandatory if limitToListingTypeIds is true.
+* - categoryConfig (optional):     Relationship configuration against categories.
+*   - limitToCategoryIds:            Indicator whether this listing field is relevant to a limited set of categories.
+*   - categoryIds:                   An array of categories, for which this custom listing field is
+*                                    relevant and should be added. This is mandatory if limitToCategoryIds is true.
+* - filterConfig:                  Filter configuration for listings query.
+*    - indexForSearch (optional):    If set as true, it is assumed that the extended data key has
+*                                    search index in place. I.e. the key can be used to filter
+*                                    listing queries (then scope needs to be 'public').
+*                                    Note: Sharetribe CLI can be used to set search index for the key:
+*                                    https://www.sharetribe.com/docs/references/extended-data/#search-schema
+*                                    Read more about filtering listings with public data keys from API Reference:
+*                                    https://www.sharetribe.com/api-reference/marketplace.html#extended-data-filtering
+*                                    Default value: false,
+*   - filterType:                    Sometimes a single schemaType can be rendered with different filter components.
+*                                    For 'enum' schema, filterType can be 'SelectSingleFilter' or 'SelectMultipleFilter'
+*   - label:                         Label for the filter, if the field can be used as query filter
+*   - searchMode (optional):         Search mode for indexed data with multi-enum schema.
+*                                    Possible values: 'has_all' or 'has_any'.
+*   - group:                         SearchPageWithMap has grouped filters. Possible values: 'primary' or 'secondary'.
+* - showConfig:                    Configuration for rendering listing. (How the field should be shown.)
+*   - label:                         Label for the saved data.
+*   - isDetail                       Can be used to hide detail row (of type enum, boolean, or long) from listing page.
+*                                    Default value: true,
+* - saveConfig:                    Configuration for adding and modifying extended data fields.
+*   - label:                         Label for the input field.
+*   - placeholderMessage (optional): Default message for user input.
+*   - isRequired (optional):         Is the field required for providers to fill
+*   - requiredMessage (optional):    Message for those fields, which are mandatory.
+*/
 export const listingFields = [
+  // // An example of how to use transaction type specific custom fields and private data.
+  // {
+  //   key: 'note',
+  //   scope: 'public',
+  //   schemaType: 'text',
+  //   listingTypeConfig: {
+  //     limitToListingTypeIds: true,
+  //     listingTypeIds: ['product-selling'],
+  //   },
+  //   showConfig: {
+  //     label: 'Extra notes',
+  //   },
+  //   saveConfig: {
+  //     label: 'Extra notes',
+  //     placeholderMessage: 'Some public extra note about this bike...',
+  //   },
+  // },
+  // {
+  //   key: 'privatenote',
+  //   scope: 'private',
+  //   schemaType: 'text',
+  //   listingTypeConfig: {
+  //     limitToListingTypeIds: true,
+  //     listingTypeIds: ['daily-booking'],
+  //   },
+  //   saveConfig: {
+  //     label: 'Private notes',
+  //     placeholderMessage: 'Some private note about this bike...',
+  //   },
+  // },
+  // // Other examples
   // {
   //   "scope": "public",
   //   "label": "Gears",
@@ -183,36 +214,76 @@ export const listingFields = [
   //     isRequired: false,
   //   },
   // },
-  // // An example of how to use transaction type specific custom fields and private data.
+  
+  // // Adding a model for our booking + geolocation
+  {
+    
+    // 1) Data model
+    key: 'serviceAreas',
+    scope: 'public',                 // saved under publicData.serviceAreas
+    schemaType: 'multi-enum',        // array of strings
+    
+    // 2) Options shown in the edit wizard & filters
+    enumOptions: [
+      // Countries (optional)
+      { option: 'FR', label: 'Toute la France' },  
+      // Regions / provinces (examples)
+      { option: 'FR-IDF', label: 'Île-de-France' },
+      { option: 'FR-ARA', label: 'Auvergne–Rhône-Alpes' },
+      { option: 'FR-BFC', label: 'Bourgogne-Franche-Comté' },  
+      { option: 'FR-MBC', label: 'Must be completed !' },
+      
+      // Cities (optional – include only if you want this granularity)
+      // { option: 'paris', label: 'Paris' },
+    ],
+    
+    
+    // 3) Search filter config
+    filterConfig: {
+      indexForSearch: true,      // index this attribute
+      label: 'Zones desservies',
+      group: 'primary',          // or 'secondary' depending on where you want it
+      // Multi-enum search logic: 'has_any' (OR) vs default 'has_all' (AND)
+      // Use 'has_any' so listings appear if they match ANY selected areas.
+      searchMode: 'has_any',
+    },
+    
+    // 4) Listing page “Details” section (optional)
+    showConfig: {
+      label: 'Zones desservies',
+    },    
+    
+    // 5) Edit wizard UI (label, required, placeholder, etc.)
+    saveConfig: {
+      label: 'Zones desservies',
+      placeholderMessage: 'Sélectionne une ou plusieurs zones…',
+      isRequired: false,
+    },    
+
+    // 6) Only show/store this field for specific listing types:
+    limitToListingTypeIds: [
+      'categorie-audit-plus',                 // your purchase process
+      'categorie-audit-premium' // etc.
+    ],
+  },
+  // // We also want a “nationwide” fallback, with a second simple enum field:
   // {
-  //   key: 'note',
+  //   key: 'coverage',
   //   scope: 'public',
-  //   schemaType: 'text',
-  //   listingTypeConfig: {
-  //     limitToListingTypeIds: true,
-  //     listingTypeIds: ['product-selling'],
+  //   schemaType: 'enum',
+  //   enumOptions: [
+  //     { option: 'local', label: 'Local' },
+  //     { option: 'nationwide', label: 'National' },
+  //   ],
+  //   saveConfig: { label: 'Couverture', isRequired: false },
+  //   filterConfig: {
+  //     indexForSearch: true,
+  //     label: 'Couverture',
+  //     group: 'secondary',
   //   },
-  //   showConfig: {
-  //     label: 'Extra notes',
-  //   },
-  //   saveConfig: {
-  //     label: 'Extra notes',
-  //     placeholderMessage: 'Some public extra note about this bike...',
-  //   },
-  // },
-  // {
-  //   key: 'privatenote',
-  //   scope: 'private',
-  //   schemaType: 'text',
-  //   listingTypeConfig: {
-  //     limitToListingTypeIds: true,
-  //     listingTypeIds: ['daily-booking'],
-  //   },
-  //   saveConfig: {
-  //     label: 'Private notes',
-  //     placeholderMessage: 'Some private note about this bike...',
-  //   },
-  // },
+  //   showConfig: { label: 'Couverture' },
+  // }
+  
 ];
 
 ///////////////////////////////////////////////////////////////////////
@@ -228,46 +299,46 @@ export const listingFields = [
 //         are used when transaction is created against a specific listing.
 
 /**
- * Configuration options for listing experience:
- * - listingType:         Unique string. This will be saved to listing's public data on
- *                        EditListingWizard.
- * - label                Label for the listing type. Used as microcopy for options to select
- *                        listing type in EditListingWizard.
- * - transactionType      Set of configurations how this listing type will behave when transaction is
- *                        created.
- *   - process              Transaction process.
- *                          The process must match one of the processes that this client app can handle
- *                          (check src/util/transactions/transaction.js) and the process must also exists in correct
- *                          marketplace environment.
- *   - alias                Valid alias for the aforementioned process. This will be saved to listing's
- *                          public data as transctionProcessAlias and transaction is initiated with this.
- *   - unitType             Unit type is mainly used as pricing unit. This will be saved to
- *                          transaction's protected data.
- *                          Recommendation: don't use same unit types in completely different processes
- *                          ('item' sold should not be priced the same as 'item' booked).
- * - stockType            This is relevant only to listings using default-purchase process.
- *                        If set to 'oneItem', stock management is not showed and the listing is
- *                        considered unique (stock = 1).
- *                        Possible values: 'oneItem', 'multipleItems', 'infiniteOneItem', and 'infiniteMultipleItems'.
- *                        Default: 'multipleItems'.
- * - availabilityType     This is relevant only to listings using default-booking process.
- *                        If set to 'oneSeat', seat management is not showed and the listing is
- *                        considered per person (seat = 1).
- *                        Possible values: 'oneSeat' and 'multipleSeats'.
- *                        Default: 'oneSeat'.
- * - priceVariations      This is relevant only to listings using default-booking process.
- *   - enabled:             If set to true, price variations are enabled.
- *                          Default: false.
- * - defaultListingFields These are tied to transaction processes. Different processes have different flags.
- *                        E.g. default-inquiry can toggle price and location to true/false value to indicate,
- *                        whether price (or location) tab should be shown. If defaultListingFields.price is not
- *                        explicitly set to _false_, price will be shown.
- *                        If the location or pickup is not used, listing won't be returned with location search.
- *                        Use keyword search as main search type if location is not enforced.
- *                        The payoutDetails flag allows provider to bypass setting of payout details.
- *                        Note: customers can't order listings, if provider has not set payout details! Monitor
- *                        providers who have not set payout details and contact them to ensure that they add the details.
- */
+* Configuration options for listing experience:
+* - listingType:         Unique string. This will be saved to listing's public data on
+*                        EditListingWizard.
+* - label                Label for the listing type. Used as microcopy for options to select
+*                        listing type in EditListingWizard.
+* - transactionType      Set of configurations how this listing type will behave when transaction is
+*                        created.
+*   - process              Transaction process.
+*                          The process must match one of the processes that this client app can handle
+*                          (check src/util/transactions/transaction.js) and the process must also exists in correct
+*                          marketplace environment.
+*   - alias                Valid alias for the aforementioned process. This will be saved to listing's
+*                          public data as transctionProcessAlias and transaction is initiated with this.
+*   - unitType             Unit type is mainly used as pricing unit. This will be saved to
+*                          transaction's protected data.
+*                          Recommendation: don't use same unit types in completely different processes
+*                          ('item' sold should not be priced the same as 'item' booked).
+* - stockType            This is relevant only to listings using default-purchase process.
+*                        If set to 'oneItem', stock management is not showed and the listing is
+*                        considered unique (stock = 1).
+*                        Possible values: 'oneItem', 'multipleItems', 'infiniteOneItem', and 'infiniteMultipleItems'.
+*                        Default: 'multipleItems'.
+* - availabilityType     This is relevant only to listings using default-booking process.
+*                        If set to 'oneSeat', seat management is not showed and the listing is
+*                        considered per person (seat = 1).
+*                        Possible values: 'oneSeat' and 'multipleSeats'.
+*                        Default: 'oneSeat'.
+* - priceVariations      This is relevant only to listings using default-booking process.
+*   - enabled:             If set to true, price variations are enabled.
+*                          Default: false.
+* - defaultListingFields These are tied to transaction processes. Different processes have different flags.
+*                        E.g. default-inquiry can toggle price and location to true/false value to indicate,
+*                        whether price (or location) tab should be shown. If defaultListingFields.price is not
+*                        explicitly set to _false_, price will be shown.
+*                        If the location or pickup is not used, listing won't be returned with location search.
+*                        Use keyword search as main search type if location is not enforced.
+*                        The payoutDetails flag allows provider to bypass setting of payout details.
+*                        Note: customers can't order listings, if provider has not set payout details! Monitor
+*                        providers who have not set payout details and contact them to ensure that they add the details.
+*/
 
 export const listingTypes = [
   // // Here are some examples of listingTypes
@@ -332,6 +403,10 @@ export const listingTypes = [
   //     location: true,
   //   },
   // },
+  
+  // Example snippet for src/config/configListing.js
+  // Add this object inside the exported "listing" array (top-level listing fields)
+  
 ];
 
 // SearchPage can enforce listing query to only those listings with valid listingType
