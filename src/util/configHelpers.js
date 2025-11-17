@@ -543,17 +543,11 @@ const validFilterConfig = (config, schemaType) => {
     return [true, {}];
   }
 
-  // // Force using listing types and fields from file configListing.js //Dav  
   // Validate: indexForSearch, label, filterType, searchMode, group
-  // const [isValidIndexForSearch, indexForSearch] = validBoolean(
-  //   'indexForSearch',
-  //   config.indexForSearch,
-  //   false
-  // );
   const [isValidIndexForSearch, indexForSearch] = validBoolean(
     'indexForSearch',
     config.indexForSearch,
-    true
+    false
   );
 
   const [isValidLabel, label] = validLabel(config.label);

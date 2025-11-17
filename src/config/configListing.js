@@ -226,12 +226,12 @@ export const listingFields = [
     // 2) Options shown in the edit wizard & filters
     enumOptions: [
       // Countries (optional)
-      { option: 'FR', label: 'Toute la France' },  
+      { option: 'fr-all', label: 'Toute la France' },  
       // Regions / provinces (examples)
-      { option: 'FR-IDF', label: 'Île-de-France' },
-      { option: 'FR-ARA', label: 'Auvergne–Rhône-Alpes' },
-      { option: 'FR-BFC', label: 'Bourgogne-Franche-Comté' },  
-      { option: 'FR-MBC', label: 'Must be completed !' },
+      { option: 'fr-idf', label: 'Île-de-France' },
+      { option: 'fr-ara', label: 'Auvergne–Rhône-Alpes' },
+      { option: 'fr-bfc', label: 'Bourgogne-Franche-Comté' },  
+      { option: 'fr-mbc', label: 'Must be completed !' },
       
       // Cities (optional – include only if you want this granularity)
       // { option: 'paris', label: 'Paris' },
@@ -246,26 +246,30 @@ export const listingFields = [
       // Multi-enum search logic: 'has_any' (OR) vs default 'has_all' (AND)
       // Use 'has_any' so listings appear if they match ANY selected areas.
       searchMode: 'has_any',
+      // searchMode: 'has_all',
     },
     
-    // 4) Listing page “Details” section (optional)
-    showConfig: {
-      label: 'Zones desservies',
-    },    
+    // // 4) Listing page “Details” section (optional)
+    // showConfig: {
+    //   label: 'Zones desservies',
+    // },    
     
-    // 5) Edit wizard UI (label, required, placeholder, etc.)
-    saveConfig: {
-      label: 'Zones desservies',
-      placeholderMessage: 'Sélectionne une ou plusieurs zones…',
-      isRequired: false,
-    },    
+    // // 5) Edit wizard UI (label, required, placeholder, etc.)
+    // saveConfig: {
+    //   label: 'Zones desservies',
+    //   placeholderMessage: 'Sélectionnez une ou plusieurs zones…',
+    //   isRequired: true,
+    // },    
 
-    // 6) Only show/store this field for specific listing types:
-    limitToListingTypeIds: [
-      'categorie-audit-plus',                
-      'categorie-audit-premium' 
-    ],
+    // // 6) Only show/store this field for specific listing types:
+    // limitToListingTypeIds: [
+    //   'listing-type-audit-reglementaire',
+    //   'listing-type-audit-premium'
+    // ],
+    
   },
+
+  
   // // We also want a “nationwide” fallback, with a second simple enum field:
   // {
   //   key: 'coverage',

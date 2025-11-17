@@ -17,6 +17,23 @@ import {
 } from '../../util/dates';
 import { isFieldForCategory, isFieldForListingType } from '../../util/fieldHelpers';
 
+// --- Custom visibility rules for "Zones desservies" (serviceAreas) --- 1/3 // Dav
+
+// Listing field key for "Zones desservies"
+const SERVICE_AREAS_FIELD_KEY = 'serviceAreas';
+
+// List of category IDs where "Zones desservies" should be visible.
+// 👉 Replace these with your real category IDs from Console → Build → Categories
+const SERVICE_AREAS_ALLOWED_CATEGORY_IDS = [
+  'categorie-audit-plus',   
+  'categorie-audit-premium',  
+];
+
+// Returns true if at least one current category is in the allowed list
+const isServiceAreasAllowedForCategories = currentCategories =>
+  currentCategories.some(catId => SERVICE_AREAS_ALLOWED_CATEGORY_IDS.includes(catId));
+
+
 const validURLParamForCategoryData = (prefix, categories, level, params) => {
   const levelKey = constructQueryParamName(`${prefix}${level}`, 'public');
   const levelValue =
@@ -79,12 +96,20 @@ export const omitLimitedListingFieldParams = (searchParams, filterConfigs) => {
       ? [listingTypePathParam]
       : Object.values(validListingTypeParamNames);
     const isForListingType = isFieldForListingType(currentListingType, foundConfig);
+
+    // --- Custom rule for "serviceAreas": only allowed for some categories --- 2/3 // Dav
+    const isServiceAreasField = foundConfig && foundConfig.key === SERVICE_AREAS_FIELD_KEY;
+    const isAllowedByCategory =
+      !isServiceAreasField || isServiceAreasAllowedForCategories(currentCategories);
+
     const searchParamMaybe =
-      !foundConfig || (foundConfig && isForCategory && isForListingType)
+      // !foundConfig || (foundConfig && isForCategory && isForListingType)
+        !foundConfig || (foundConfig && isForCategory && isForListingType && isAllowedByCategory)
         ? { [searchParamKey]: searchParamValue }
         : {};
     return { ...picked, ...searchParamMaybe };
   }, {});
+
 };
 
 /**
@@ -435,8 +460,19 @@ export const pickListingFieldFilters = params => {
   const pickedFields = listingFields.reduce((picked, fieldConfig) => {
     const isTargetCategory = isFieldForCategory(currentCategories, fieldConfig);
     const isTargetListingField = isFieldForListingType(currentListingType, fieldConfig);
-    return isTargetCategory && isTargetListingField ? [...picked, fieldConfig] : picked;
+
+    // --- Custom rule for "serviceAreas": only allowed for some categories --- 3/3 // Dav
+    const isServiceAreasField = fieldConfig.key === SERVICE_AREAS_FIELD_KEY;
+    const isAllowedByCategory =
+      !isServiceAreasField || isServiceAreasAllowedForCategories(currentCategories);
+
+    // return isTargetCategory && isTargetListingField 
+    return isTargetCategory && isTargetListingField && isAllowedByCategory    
+    ? [...picked, fieldConfig] : picked;    
+    // ---------------------------------------------------------------------- //
+
   }, []);
+
   return pickedFields;
 };
 /**
