@@ -230,8 +230,17 @@ export const listingFields = [
       // Regions / provinces (examples)
       { option: 'fr-idf', label: 'Île-de-France' },
       { option: 'fr-ara', label: 'Auvergne–Rhône-Alpes' },
-      { option: 'fr-bfc', label: 'Bourgogne-Franche-Comté' },  
-      { option: 'fr-mbc', label: 'Must be completed !' },
+      { option: 'fr-bfc', label: 'Bourgogne–Franche-Comté' },
+      { option: 'fr-bre', label: 'Bretagne' },
+      { option: 'fr-cvl', label: 'Centre–Val de Loire' },
+      { option: 'fr-corse', label: 'Corse' },
+      { option: 'fr-ges', label: 'Grand Est' },
+      { option: 'fr-hdf', label: 'Hauts-de-France' },
+      { option: 'fr-norm', label: 'Normandie' },
+      { option: 'fr-naq', label: 'Nouvelle-Aquitaine' },
+      { option: 'fr-oc', label: 'Occitanie' },
+      { option: 'fr-pdl', label: 'Pays de la Loire' },
+      { option: 'fr-pac', label: 'Provence-Alpes-Côte d’Azur' },
       
       // Cities (optional – include only if you want this granularity)
       // { option: 'paris', label: 'Paris' },
