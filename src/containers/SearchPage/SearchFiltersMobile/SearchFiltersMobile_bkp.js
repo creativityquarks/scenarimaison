@@ -116,6 +116,11 @@ class SearchFiltersMobileComponent extends Component {
           </PopupOpenerButton>
 
           {sortByComponent}
+          {isMapVariant ? (
+            <div className={css.mapIcon} onClick={onMapIconClick}>
+              <FormattedMessage id="SearchFiltersMobile.openMapView" className={css.mapIconText} />
+            </div>
+          ) : null}
         </div>
 
         {noResultsInfo ? noResultsInfo : null}
