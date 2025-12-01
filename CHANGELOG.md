@@ -14,6 +14,18 @@ way to update this template, but currently, we follow a pattern:
 
 ## Upcoming version 2025-XX-XX
 
+## [v10.0.0] 2025-11-04
+
+This major release introduces Redux Toolkit for state management. This is a big change and you
+should carefully check the changes before taking update from this repository.
+
+- [change] Start using Redux Toolkit for state management.
+
+  - All the \*.duck.js files have been converted to Redux Toolkit slices.
+  - The signature of 'configureStore' function has been changed.
+
+  [#682](https://github.com/sharetribe/web-template/pull/682)
+
 - [fix] Added missing getAriaLabel to various components used in Styleguide
   [#687](https://github.com/sharetribe/web-template/pull/687)
 - [add] Add noindex metadata to closed listings.
@@ -26,6 +38,8 @@ way to update this template, but currently, we follow a pattern:
   [#683](https://github.com/sharetribe/web-template/pull/683)
 - [fix] Only set TransactionPage pageHeading if processName resolves
   [#681](https://github.com/sharetribe/web-template/pull/681)
+
+  [v10.0.0]: https://github.com/sharetribe/web-template/compare/v9.1.0...v10.0.0
 
 ## [v9.1.0] 2025-10-23
 
