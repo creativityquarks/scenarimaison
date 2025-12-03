@@ -53,7 +53,8 @@ const redirectSSL =
   process.env.SERVER_SHARETRIBE_REDIRECT_SSL != null
     ? process.env.SERVER_SHARETRIBE_REDIRECT_SSL
     : process.env.REACT_APP_SHARETRIBE_USING_SSL;
-const REDIRECT_SSL = redirectSSL === 'true';
+// const REDIRECT_SSL = redirectSSL === 'true';
+const REDIRECT_SSL = redirectSSL === 'false';
 const TRUST_PROXY = process.env.SERVER_SHARETRIBE_TRUST_PROXY || null;
 const CSP = process.env.REACT_APP_CSP;
 const cspReportUrl = '/csp-report';
