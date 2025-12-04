@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { useHistory, useLocation } from 'react-router-dom';
-import debounce from 'lodash/debounce';
+
 import omit from 'lodash/omit';
 import classNames from 'classnames';
 
@@ -36,7 +36,7 @@ import {
 import { getListingsById } from '../../ducks/marketplaceData.duck';
 import { manageDisableScrolling, isScrollingDisabled } from '../../ducks/ui.duck';
 
-import { H3, H5, ModalInMobile, NamedRedirect, Page } from '../../components';
+import { H3, H5, NamedRedirect, Page } from '../../components';
 import TopbarContainer from '../../containers/TopbarContainer/TopbarContainer';
 
 import { setActiveListing } from './SearchPage.duck';
@@ -55,7 +55,7 @@ import {
 } from './SearchPage.shared';
 
 import FilterComponent from './FilterComponent';
-import SearchMap from './SearchMap/SearchMap';
+
 import MainPanelHeader from './MainPanelHeader/MainPanelHeader';
 import SearchFiltersSecondary from './SearchFiltersSecondary/SearchFiltersSecondary';
 import SearchFiltersPrimary from './SearchFiltersPrimary/SearchFiltersPrimary';
@@ -67,7 +67,6 @@ import NoSearchResultsMaybe from './NoSearchResultsMaybe/NoSearchResultsMaybe';
 import css from './SearchPage.module.css';
 
 const MODAL_BREAKPOINT = 768; // Search is in modal on mobile layout
-const SEARCH_WITH_MAP_DEBOUNCE = 300; // Little bit of debounce before search is initiated.
 
 // Primary filters have their content in dropdown-popup.
 // With this offset we move the dropdown to the left a few pixels on desktop layout.
@@ -98,14 +97,6 @@ export class SearchPageComponent extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      isSearchMapOpenOnMobile: false,
-      isMobileModalOpen: false,
-      currentQueryParams: validUrlQueryParamsFromProps(props),
-      isSecondaryFiltersOpen: false,
-    };
-
-    this.onMapMoveEnd = debounce(this.onMapMoveEnd.bind(this), SEARCH_WITH_MAP_DEBOUNCE);
     this.onOpenMobileModal = this.onOpenMobileModal.bind(this);
     this.onCloseMobileModal = this.onCloseMobileModal.bind(this);
 
@@ -119,63 +110,6 @@ export class SearchPageComponent extends Component {
     this.handleSortBy = this.handleSortBy.bind(this);
   }
 
-  // Callback to determine if new search is needed
-  // when map is moved by user or viewport has changed
-  onMapMoveEnd(viewportBoundsChanged, data) {
-    const { viewportBounds, viewportCenter } = data;
-    const { params: currentPathParams } = this.props;
-
-    const routes = this.props.routeConfiguration;
-    const searchPagePath = currentPathParams.listingType
-      ? pathByRouteName('SearchPageWithListingType', routes, currentPathParams)
-      : pathByRouteName('SearchPage', routes);
-    const currentPath =
-      typeof window !== 'undefined' && window.location && window.location.pathname;
-
-    // When using the ReusableMapContainer onMapMoveEnd can fire from other pages than SearchPage too
-    const isSearchPage = currentPath === searchPagePath;
-
-    // If mapSearch url param is given
-    // or original location search is rendered once,
-    // we start to react to "mapmoveend" events by generating new searches
-    // (i.e. 'moveend' event in Mapbox and 'bounds_changed' in Google Maps)
-    if (viewportBoundsChanged && isSearchPage) {
-      const { history, location, config } = this.props;
-      const { listingFields: listingFieldsConfig } = config?.listing || {};
-      const { defaultFilters: defaultFiltersConfig } = config?.search || {};
-      const activeListingTypes = config?.listing?.listingTypes.map(config => config.listingType);
-      const listingCategories = config.categoryConfiguration.categories;
-      const filterConfigs = {
-        listingFieldsConfig,
-        defaultFiltersConfig,
-        listingCategories,
-        activeListingTypes,
-        currentPathParams,
-      };
-
-      // parse query parameters, including a custom attribute named category
-      // when onMapMoveEnd is called, pagination needs to be reset.
-      const { address, bounds, mapSearch, page, ...rest } = parse(location.search, {
-        latlng: ['origin'],
-        latlngBounds: ['bounds'],
-      });
-
-      const originMaybe = isOriginInUse(this.props.config) ? { origin: viewportCenter } : {};
-      const dropNonFilterParams = false;
-
-      const searchParams = {
-        address,
-        ...originMaybe,
-        bounds: viewportBounds,
-        mapSearch: true,
-        ...validFilterParams(rest, filterConfigs, dropNonFilterParams),
-      };
-
-      const { routeName, pathParams } = getSearchPageResourceLocatorStringParams(routes, location);
-
-      history.push(createResourceLocatorString(routeName, routes, pathParams, searchParams));
-    }
-  }
 
   // Invoked when a modal is opened from a child component,
   // for example when a filter modal is opened in mobile view
@@ -399,11 +333,6 @@ export class SearchPageComponent extends Component {
 
     const validQueryParams = urlQueryParams;
 
-    const isWindowDefined = typeof window !== 'undefined';
-    const isMobileLayout = isWindowDefined && window.innerWidth < MODAL_BREAKPOINT;
-    const shouldShowSearchMap =
-      !isMobileLayout || (isMobileLayout && this.state.isSearchMapOpenOnMobile);
-
     const isKeywordSearch = isMainSearchTypeKeywords(config);
     const builtInPrimaryFilters = defaultFiltersConfig.filter(f =>
       ['categoryLevel', 'listingType'].includes(f.key)
@@ -506,7 +435,6 @@ export class SearchPageComponent extends Component {
       ? intl.formatMessage({ id: 'MainPanelHeader.loadingResults' })
       : intl.formatMessage({ id: 'MainPanelHeader.foundResults' }, { count: totalItems });
 
-    const { bounds, origin } = searchParamsInURL || {};
     const { title, description, schema } = createSearchResultSchema(
       listings,
       searchParamsInURL || {},
