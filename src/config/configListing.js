@@ -223,28 +223,36 @@ export const listingFields = [
     scope: 'public',                 // saved under publicData.serviceAreas
     schemaType: 'multi-enum',        // array of strings
     
-    // 2) Options shown in the edit wizard & filters
-    enumOptions: [
-      // Countries (optional)
-      { option: 'fr-all', label: 'Toute la France' },  
-      // Regions / provinces (examples)
-      { option: 'fr-idf', label: 'Île-de-France' },
-      { option: 'fr-ara', label: 'Auvergne–Rhône-Alpes' },
-      { option: 'fr-bfc', label: 'Bourgogne–Franche-Comté' },
-      { option: 'fr-bre', label: 'Bretagne' },
-      { option: 'fr-cvl', label: 'Centre–Val de Loire' },
-      { option: 'fr-corse', label: 'Corse' },
-      { option: 'fr-ges', label: 'Grand Est' },
-      { option: 'fr-hdf', label: 'Hauts-de-France' },
-      { option: 'fr-norm', label: 'Normandie' },
-      { option: 'fr-naq', label: 'Nouvelle-Aquitaine' },
-      { option: 'fr-oc', label: 'Occitanie' },
-      { option: 'fr-pdl', label: 'Pays de la Loire' },
-      { option: 'fr-pac', label: 'Provence-Alpes-Côte d’Azur' },
+    // 2) Options shown in the edit wizard & filters => X 
+
+    // The front-end config (configListing.js) does NOT control the actual options.
+    // In Flex:
+    // The REAL SOURCE OF TRUTH for enumOptions
+    // is inside the Sharetribe Console → Build → Listing fields.
+    // Your React code's enumOptions array is ONLY used for local preview or debugging —
+    // it is NEVER used in production unless you override how listingFieldsConfig is loaded.
+
+    // enumOptions: [
+    //   // Countries (optional)
+    //   { option: 'fr-all', label: 'Toute la France' },  
+    //   // Regions / provinces (examples)
+    //   { option: 'fr-idf', label: 'Île-de-France' },
+    //   { option: 'fr-ara', label: 'Auvergne–Rhône-Alpes' },
+    //   { option: 'fr-bfc', label: 'Bourgogne–Franche-Comté' },
+    //   { option: 'fr-bre', label: 'Bretagne' },
+    //   { option: 'fr-cvl', label: 'Centre–Val de Loire' },
+    //   { option: 'fr-corse', label: 'Corse' },
+    //   { option: 'fr-ges', label: 'Grand Est' },
+    //   { option: 'fr-hdf', label: 'Hauts-de-France' },
+    //   { option: 'fr-norm', label: 'Normandie' },
+    //   { option: 'fr-naq', label: 'Nouvelle-Aquitaine' },
+    //   { option: 'fr-oc', label: 'Occitanie' },
+    //   { option: 'fr-pdl', label: 'Pays de la Loire' },
+    //   { option: 'fr-pac', label: 'Provence-Alpes-Côte d’Azur' },
       
-      // Cities (optional – include only if you want this granularity)
-      // { option: 'paris', label: 'Paris' },
-    ],
+    //   // Cities (optional – include only if you want this granularity)
+    //   // { option: 'paris', label: 'Paris' },
+    // ],
     
     
     // 3) Search filter config
