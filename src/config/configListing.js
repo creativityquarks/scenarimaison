@@ -216,12 +216,12 @@ export const listingFields = [
   // },
   
   // // Adding a model for our booking + geolocation
-  {
+  // {
     
-    // 1) Data model
-    key: 'serviceAreas',
-    scope: 'public',                 // saved under publicData.serviceAreas
-    schemaType: 'multi-enum',        // array of strings
+  //   // 1) Data model
+  //   key: 'serviceAreas',
+  //   scope: 'public',                 // saved under publicData.serviceAreas
+  //   schemaType: 'multi-enum',        // array of strings
     
     // 2) Options shown in the edit wizard & filters => X 
 
@@ -256,15 +256,15 @@ export const listingFields = [
     
     
     // 3) Search filter config
-    filterConfig: {
-      indexForSearch: true,      // index this attribute
-      label: 'Zones desservies',
-      group: 'primary',          // or 'secondary' depending on where you want it
-      // Multi-enum search logic: 'has_any' (OR) vs default 'has_all' (AND)
-      // Use 'has_any' so listings appear if they match ANY selected areas.
-      searchMode: 'has_any',
-      // searchMode: 'has_all',
-    },
+    // filterConfig: {
+    //   indexForSearch: true,      // index this attribute
+    //   label: 'Zones desservies',
+    //   group: 'primary',          // or 'secondary' depending on where you want it
+    //   // Multi-enum search logic: 'has_any' (OR) vs default 'has_all' (AND)
+    //   // Use 'has_any' so listings appear if they match ANY selected areas.
+    //   searchMode: 'has_any',
+    //   // searchMode: 'has_all',
+    // },
     
     // // 4) Listing page “Details” section (optional)
     // showConfig: {
@@ -284,7 +284,7 @@ export const listingFields = [
     //   'listing-type-audit-premium'
     // ],
     
-  },
+  // },
 
   
   // // We also want a “nationwide” fallback, with a second simple enum field:

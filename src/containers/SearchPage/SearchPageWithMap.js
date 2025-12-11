@@ -97,6 +97,12 @@ export class SearchPageComponent extends Component {
   constructor(props) {
     super(props);
 
+    this.state = {
+      currentQueryParams: {}, 
+      isMobileModalOpen: false,
+      isSearchMapOpen: false,
+    };
+
     this.onOpenMobileModal = this.onOpenMobileModal.bind(this);
     this.onCloseMobileModal = this.onCloseMobileModal.bind(this);
 

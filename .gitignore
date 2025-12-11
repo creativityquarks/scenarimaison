@@ -15,3 +15,4 @@ build
 .env_new_debug
 npm-debug.log
 yarn-error.log
+certs
